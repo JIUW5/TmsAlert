@@ -1,5 +1,8 @@
 # TMS Alert Service
 
+<<<<<<< codex/develop-alert-service-to-handle-notifications-duepza
+按你建议改为 `app/` 分层目录，并使用 `config.yaml` 管理配置。
+=======
 接收 n9e 告警事件并进行规则过滤、交易日校验、调度窗口判断、告警聚合与 webhook 发送。
 
 ## 功能覆盖
@@ -12,10 +15,61 @@
 6. 使用告警事件中的 `robot_token` 调 webhook 发送告警/恢复。
 7. 1 分钟聚合（同主机+同服务+同状态+同 token），支持 K8s 多副本（通过数据库去重与 `FOR UPDATE SKIP LOCKED` 抢占刷新任务）。
 8. 暴露 `/metrics` Prometheus 指标。
+>>>>>>> main
 
 ## 项目结构
 
 ```text
+<<<<<<< codex/develop-alert-service-to-handle-notifications-duepza
+app/
+├── api/
+│   ├── router.py
+│   └── routes/
+│       ├── health.py
+│       └── v1/
+│           └── alerts.py
+├── middlewares/
+├── schemas/
+│   └── event.py
+├── services/
+│   ├── aggregation_service.py
+│   ├── calendar_service.py
+│   ├── event_service.py
+│   ├── owner_service.py
+│   ├── rule_service.py
+│   ├── time_service.py
+│   └── webhook_service.py
+├── config.py
+├── db.py
+├── metrics.py
+└── main.py
+config.yaml
+schema.sql
+setup.py
+```
+
+## 能力
+
+1. 接收 n9e 告警和恢复（`POST /v1/events/n9e`）。
+2. 使用 `labels.name + labels.hostname` 查 MariaDB 规则表。
+3. 根据 `labels.ex` 调交易日历服务 `/tradingDays`。
+4. 按 `START/STOP + cron_expr` 判断是否在调度窗口。
+5. 按 `service_owner` 查手机号。
+6. 使用 `robot_token` 调 webhook 发群消息。
+7. 1 分钟聚合（同主机+同服务+同状态+同 token）。
+8. 支持 K8s 多副本（DB 唯一键 + `FOR UPDATE SKIP LOCKED`）。
+9. 暴露 `/metrics`。
+
+## 配置
+
+统一在 `config.yaml`：
+- `app`
+- `session`
+- `aggregation`
+- `mariadb`
+- `calendar`
+- `webhook`
+=======
 tms_alert_service/
 ├── app.py                       # FastAPI 应用、路由、生命周期
 ├── main.py                      # 进程启动入口
@@ -41,10 +95,24 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python setup.py develop
 ```
+>>>>>>> main
 
 ## 启动
 
 ```bash
+<<<<<<< codex/develop-alert-service-to-handle-notifications-duepza
+pip install -r requirements.txt
+python setup.py develop
+tms-alert-service
+```
+
+## API
+
+- `GET /healthz`
+- `GET /metrics`
+- `POST /v1/events/n9e`
+- `POST /v1/admin/flush`
+=======
 tms-alert-service
 ```
 
@@ -100,6 +168,7 @@ uvicorn tms_alert_service.app:app --host 0.0.0.0 --port 8080
 ```bash
 mysql -h <host> -u <user> -p <db_name> < schema.sql
 ```
+>>>>>>> main
 
 ## 打包
 

@@ -1,8 +1,8 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name='tms-alert-service',
-    version='0.1.0',
+    version='0.2.0',
     description='Alert service for n9e events with schedule/trading-day filtering and webhook delivery',
     packages=find_packages(),
     include_package_data=True,
@@ -14,11 +14,11 @@ setup(
         'httpx==0.28.1',
         'croniter==6.0.0',
         'prometheus-client==0.21.1',
-        'python-dotenv==1.0.1',
+        'PyYAML==6.0.2',
     ],
     entry_points={
         'console_scripts': [
-            'tms-alert-service=tms_alert_service.main:main',
+            'tms-alert-service=app.main:main',
         ],
     },
     python_requires='>=3.10',
