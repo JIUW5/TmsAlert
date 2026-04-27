@@ -1,0 +1,28 @@
+app:
+  host: 0.0.0.0
+  port: 8080
+  log_level: INFO
+
+session:
+  timezone: Asia/Shanghai
+  day_session_start_hour: 8
+  day_session_end_hour: 20
+
+aggregation:
+  window_seconds: 60
+  flush_interval_seconds: 5
+
+mariadb:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  password: ""
+  database: tms_alert
+
+calendar:
+  base_url: http://calendar.saturn-res.ipa.zs
+  timeout_seconds: 3
+
+webhook:
+  url_template: "http://172.17.228.97:5008/robot/send?access_token={token}"
+  timeout_seconds: 3
